@@ -24,8 +24,7 @@ class Deque:
             self.__head = node
         else:
             self.__tail.next_node = node
-
-        node.prev_node = self.__tail
+            node.prev_node = self.__tail
 
         self.__tail = node
         self.__count += 1
@@ -52,8 +51,8 @@ class Deque:
             self.__tail = node
         else:
             self.__head.prev_node = node
+            node.next_node = self.__head
 
-        node.next_node = self.__head
         self.__head = node
         self.__count += 1
 

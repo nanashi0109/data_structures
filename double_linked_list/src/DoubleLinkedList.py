@@ -1,14 +1,16 @@
 from __future__ import annotations
 
 
-class LinkedList:
+class DoubleLinkedList:
 
     class Node:
-        prev_node: LinkedList.Node or None
+        prev_node: DoubleLinkedList.Node or None
+        next_node: DoubleLinkedList.Node or None
 
         def __init__(self, data: any):
             self.data = data
             self.prev_node = None
+            self.next_node = None
 
     __head: Node or None
     __tail: Node or None
@@ -19,23 +21,25 @@ class LinkedList:
         self.__count = 0
 
     def add_front(self, item: any) -> None:
-        node = LinkedList.Node(item)
+        node = DoubleLinkedList.Node(item)
 
-        if not self.is_empty():
-            node.prev_node = self.__head
-        else:
+        if self.is_empty():
             self.__tail = node
+        else:
+            self.__head.next_node = node
+            node.prev_node = self.__head
 
         self.__head = node
         self.__count += 1
 
     def add_back(self, item: any) -> None:
-        node = LinkedList.Node(item)
+        node = DoubleLinkedList.Node(item)
 
         if self.is_empty():
             self.__head = node
         else:
             self.__tail.prev_node = node
+            node.next_node = self.__tail
 
         self.__tail = node
         self.__count += 1
@@ -52,27 +56,30 @@ class LinkedList:
             iterator = iterator.prev_node
 
         iterator.prev_node = iterator.prev_node.prev_node
+        iterator.next_node = iterator
         self.__count -= 1
 
     def insert(self, item: any, index: int) -> None:
-        if self.__count - 1 < index or index < 0:
+        if index > self.__count - 1 or index < 0:
             raise ValueError("Incorrect index")
 
         if index == 0:
             self.add_front(item)
             return
 
-        node = LinkedList.Node(item)
+        node = DoubleLinkedList.Node(item)
 
-        node_iterator = self.__head
+        iterator = self.__head
         counter = 0
 
         while counter < index - 1:
-            node_iterator = node_iterator.prev_node
+            iterator = iterator.prev_node
             counter += 1
 
-        node.prev_node = node_iterator.prev_node
-        node_iterator.prev_node = node
+        node.prev_node = iterator.prev_node
+        iterator.prev_node.next_node = node
+        node.next_node = iterator
+        iterator.prev_node = node
 
         self.__count += 1
 
@@ -119,14 +126,37 @@ class LinkedList:
         self.__count = 0
 
     def __str__(self):
-        result = ""
+        result = "None <- (tail) <-> "
 
-        iterator = self.__head
-
+        iterator = self.__tail
         while not (iterator is None):
-            result += f"{iterator.person_data.name} -> "
-            iterator = iterator.prev_node
+            result += f"{iterator.data} <-> "
+            iterator = iterator.next_node
 
-        result += "None"
+        result += "(head) -> None"
 
         return result
+
+    def display_from_tail(self):
+        result = "None <- (head) <- "
+
+        iterator = self.__head
+        while not (iterator is None):
+            result += f"{iterator.data} <- "
+            iterator = iterator.prev_node
+
+        result += "(tail) <- None"
+
+        print(result)
+
+    def display_from_head(self):
+        result = "None -> (tail) -> "
+
+        iterator = self.__tail
+        while not (iterator is None):
+            result += f"{iterator.data} -> "
+            iterator = iterator.next_node
+
+        result += "(head) -> None"
+
+        print(result)
