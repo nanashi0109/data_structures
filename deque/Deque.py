@@ -3,19 +3,23 @@ from __future__ import annotations
 
 class Deque:
 
-    __head: Node
-    __tail: Node
-
     class Node:
 
-        next_node: Deque.Node
-        prev_node: Deque.Node
+        next_node: Deque.Node or None
+        prev_node: Deque.Node or None
 
         def __init__(self, data: any):
             self.data = data
+            self.next_node = None
+            self.prev_node = None
+
+    __head: Node or None
+    __tail: Node or None
 
     def __init__(self):
         self.__count = 0
+        self.__head = None
+        self.__tail = None
 
     def enqueue_tail(self, item: any) -> None:
         node = Deque.Node(item)
@@ -41,8 +45,10 @@ class Deque:
         self.__count -= 1
         return result
 
-    def peek_head(self) -> Node:
-        return self.__head
+    def peek_head(self) -> Node or None:
+        if self.is_empty():
+            return None
+        return self.__head.data
 
     def enqueue_head(self, item: any) -> None:
         node = Deque.Node(item)
@@ -68,7 +74,9 @@ class Deque:
         self.__count -= 1
         return result
 
-    def peek_tail(self) -> Node:
+    def peek_tail(self) -> Node or None:
+        if self.is_empty():
+            return None
         return self.__tail.data
 
     def is_empty(self) -> bool:
@@ -78,22 +86,12 @@ class Deque:
         return self.__count
 
     def __str__(self):
-        result = "None <- (head) <- "
+        result = "None <- (head) <-> "
 
         iterator = self.__head
         while not (iterator is None):
-            result += f"{iterator.data} <- "
+            result += f"{iterator.data} <-> "
             iterator = iterator.next_node
 
-        result += "(tail) <- None\n"
-
-        result += "None -> (tail) -> "
-
-        iterator = self.__tail
-        while not (iterator is None):
-            result += f"{iterator.data} -> "
-            iterator = iterator.prev_node
-
-        result += "(head) -> None"
-
+        result += "(tail) -> None"
         return result
