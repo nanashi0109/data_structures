@@ -17,7 +17,7 @@ class Deque:
     def __init__(self):
         self.__count = 0
 
-    def enqueue(self, item: any) -> None:
+    def enqueue_tail(self, item: any) -> None:
         node = Deque.Node(item)
 
         if self.is_empty():
@@ -29,7 +29,7 @@ class Deque:
         self.__tail = node
         self.__count += 1
 
-    def dequeue(self) -> Node:
+    def dequeue_head(self) -> Node:
         if self.is_empty():
             return None
 
@@ -41,7 +41,7 @@ class Deque:
         self.__count -= 1
         return result
 
-    def peek(self) -> Node:
+    def peek_head(self) -> Node:
         return self.__head
 
     def enqueue_head(self, item: any) -> None:
