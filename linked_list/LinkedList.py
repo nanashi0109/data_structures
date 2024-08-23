@@ -44,14 +44,19 @@ class LinkedList:
         if self.is_empty():
             raise Exception("Not found")
 
-        iterator = self.__head
-        while not (iterator.prev_node.data is item):
-            if iterator.prev_node.prev_node is None:
-                raise Exception("Not found")
+        if self.__head.data is item:
+            self.__head = self.__head.prev_node
+        else:
+            iterator = self.__head
 
-            iterator = iterator.prev_node
+            while not (iterator.prev_node.data is item):
+                if iterator.prev_node.prev_node is None:
+                    raise Exception("Not found")
 
-        iterator.prev_node = iterator.prev_node.prev_node
+                iterator = iterator.prev_node
+
+            iterator.prev_node = iterator.prev_node.prev_node
+
         self.__count -= 1
 
     def insert(self, item: any, index: int) -> None:
@@ -83,15 +88,14 @@ class LinkedList:
         if self.is_empty():
             return False
 
-        is_find = False
         iterator = self.__head
 
-        while not is_find or iterator is not None:
-            if iterator.data == item:
-                is_find = True
+        while not (iterator is None):
+            if iterator.data is item:
+                return True
             iterator = iterator.prev_node
 
-        return is_find
+        return False
 
     def count(self, item: any) -> int:
         if self.is_empty():
@@ -119,12 +123,12 @@ class LinkedList:
         self.__count = 0
 
     def __str__(self):
-        result = ""
+        result = "(head) -> "
 
         iterator = self.__head
 
         while not (iterator is None):
-            result += f"{iterator.person_data.name} -> "
+            result += f"{iterator.data} -> "
             iterator = iterator.prev_node
 
         result += "None"
