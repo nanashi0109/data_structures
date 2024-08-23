@@ -48,15 +48,19 @@ class DoubleLinkedList:
         if self.is_empty():
             raise Exception("Not found")
 
-        iterator = self.__head
-        while not (iterator.prev_node.data is item):
-            if iterator.prev_node.prev_node is None:
-                raise Exception("Not found")
+        if self.__head.data is item:
+            self.__head = self.__head.prev_node
+            self.__head.next_node = None
+        else:
+            iterator = self.__head
+            while not (iterator.prev_node.data is item):
+                if iterator.prev_node.prev_node is None:
+                    raise Exception("Not found")
 
-            iterator = iterator.prev_node
+                iterator = iterator.prev_node
 
-        iterator.prev_node = iterator.prev_node.prev_node
-        iterator.next_node = iterator
+            iterator.prev_node = iterator.prev_node.prev_node
+            iterator.prev_node.next_node = iterator
         self.__count -= 1
 
     def insert(self, item: any, index: int) -> None:
@@ -90,15 +94,14 @@ class DoubleLinkedList:
         if self.is_empty():
             return False
 
-        is_find = False
         iterator = self.__head
 
-        while not is_find or iterator is not None:
+        while not (iterator is None):
             if iterator.data == item:
-                is_find = True
+                return True
             iterator = iterator.prev_node
 
-        return is_find
+        return False
 
     def count(self, item) -> int:
         if self.is_empty():
