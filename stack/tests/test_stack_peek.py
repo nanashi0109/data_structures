@@ -13,6 +13,7 @@ def pre_condition() -> Stack:
                              ([4, 3, 2, 1], 1),
                              ([1, 2, 65], 65),
                              ([1, 2, "65"], "65"),
+                             ([], None)
                          ])
 def test_peek_positive(data, expected_result, pre_condition):
     for i in data:

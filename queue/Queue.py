@@ -8,7 +8,7 @@ class Queue:
 
         def __init__(self, data: any):
             self.data = data
-            self.next_node = None
+            self.prev_node = None
 
     __head: Node or None
     __tail: Node or None
@@ -44,7 +44,10 @@ class Queue:
         self.__count -= 1
         return result
 
-    def peek(self) -> Node:
+    def peek(self) -> Node or None:
+        if self.is_empty():
+            return None
+
         return self.__head.data
 
     def is_empty(self) -> bool:
@@ -54,13 +57,13 @@ class Queue:
         return self.__count
 
     def __str__(self):
-        result = "(head) <- "
+        result = "(head) -> "
 
         iterator = self.__head
         while not (iterator is None):
-            result += f"{iterator.data} <- "
+            result += f"{iterator.data} -> "
             iterator = iterator.prev_node
 
-        result += "(tail) <- None"
+        result += "(tail) -> None"
 
         return result

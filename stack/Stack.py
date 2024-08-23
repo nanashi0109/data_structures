@@ -37,6 +37,8 @@ class Stack:
         return result
 
     def peek(self):
+        if self.is_empty():
+            return None
         return self.__top.data
 
     def is_empty(self) -> bool:
