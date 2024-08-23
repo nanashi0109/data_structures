@@ -40,6 +40,3 @@ class HashTable:
 
         self.__array[_hash] = None
         self.__count -= 1
-
-    def clear(self) -> None:
-        self.__array = []
