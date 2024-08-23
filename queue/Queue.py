@@ -30,7 +30,7 @@ class Queue:
         self.__tail = node
         self.__count += 1
 
-    def dequeue(self) -> Node or None:
+    def dequeue(self) -> any:
         if self.is_empty():
             return None
 
