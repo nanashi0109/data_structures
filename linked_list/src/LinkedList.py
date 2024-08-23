@@ -93,7 +93,7 @@ class LinkedList:
 
         return is_find
 
-    def count(self, item) -> int:
+    def count(self, item: any) -> int:
         if self.is_empty():
             return 0
 
