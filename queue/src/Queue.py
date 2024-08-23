@@ -25,7 +25,7 @@ class Queue:
         if self.is_empty():
             self.__head = node
         else:
-            self.__tail.next_node = node
+            self.__tail.prev_node = node
 
         self.__tail = node
         self.__count += 1
@@ -39,7 +39,7 @@ class Queue:
         if self.__count == 1:
             self.__tail = None
 
-        self.__head = self.__head.next_node
+        self.__head = self.__head.prev_node
 
         self.__count -= 1
         return result
@@ -59,7 +59,7 @@ class Queue:
         iterator = self.__head
         while not (iterator is None):
             result += f"{iterator.data} <- "
-            iterator = iterator.next_node
+            iterator = iterator.prev_node
 
         result += "(tail) <- None"
 
